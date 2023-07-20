@@ -14,14 +14,14 @@ const cartUpdateReducer = createSlice({
             if (!existingItem) {
                 state.items.push({
                     id: newItem.id,
-                    name: newItem.title,
                     price: newItem.price,
                     quantity: 1,
-                    totalPrice: newItem.totalPrice
+                    totalPrice: newItem.price,
+                    name: newItem.title,
                 });
             } else {
                 existingItem.quantity++;
-                existingItem.totalPrice += newItem.totalPrice;
+                existingItem.totalPrice = existingItem.totalPrice + newItem.pricerice;
             }
         },
         removeItemFromCart(state, action) {
