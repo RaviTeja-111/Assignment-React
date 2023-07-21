@@ -1,5 +1,5 @@
 import classes from './CartItem.module.css';
-import cartUpdateActions from '../../reducers/cartUpdateReducer';
+import { cartUpdateActions } from '../../reducers/cartUpdateReducer';
 
 import { useDispatch } from 'react-redux';
 
@@ -18,7 +18,6 @@ const CartItem = (props) => {
       price,
     }));
   }
-
 
   return (
     <li className={classes.item}>

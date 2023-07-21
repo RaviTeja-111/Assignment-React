@@ -21,7 +21,7 @@ const cartUpdateReducer = createSlice({
                 });
             } else {
                 existingItem.quantity++;
-                existingItem.totalPrice = existingItem.totalPrice + newItem.pricerice;
+                existingItem.totalPrice = existingItem.totalPrice + newItem.price;
             }
         },
         removeItemFromCart(state, action) {
@@ -32,7 +32,7 @@ const cartUpdateReducer = createSlice({
                 state.items = state.items.filter(item => item.id !== id);
             } else {
                 existingItem.quantity--;
-                existingItem.totalPrice -= existingItem.price;
+                existingItem.totalPrice = existingItem.totalPrice -existingItem.price;
             }
 
         }
