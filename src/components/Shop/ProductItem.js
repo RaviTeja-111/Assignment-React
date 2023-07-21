@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import Card from '../UI/Card';
 import classes from './ProductItem.module.css';
@@ -7,14 +7,25 @@ import { cartUpdateActions } from '../../reducers/cartUpdateReducer';
 
 const ProductItem = (props) => {
   const { title, price, description, id } = props;
+
   const dispatch = useDispatch();
+  const cart = useSelector(state => state.cartDisplay);
 
   const addToCartHandler = () => {
-    dispatch(cartUpdateActions.addItemToCart(
-      {id,
+
+    const dumTotalQuantity = cart.totalQuantity+1;  // add dummy cartquant to transefer to server 
+    const updatedItems = cart.items.slice(); //copy of items to avoid mutation
+1
+    const existingItem = updatedItems.find(itm=>itm.id===id); new object + copy existing properties to avoid state mutation
+
+    if(existingItem){
+      const updatedItem = {...existingItem}
+    }
+    dispatch(cartUpdateActions.addItemToCart({
+      id,
       title,
-      price}
-    ));
+      price
+    }));
   }
 
   return (
