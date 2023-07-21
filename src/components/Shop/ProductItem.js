@@ -9,21 +9,21 @@ const ProductItem = (props) => {
   const { title, price, description, id } = props;
 
   const dispatch = useDispatch();
-  const cart = useSelector(state => state.cartDisplay);
+  const cart = useSelector(state => state.cartUpdate);
 
   const addToCartHandler = () => {
 
-    const dumTotalQuantity = cart.totalQuantity + 1;  // add dummy cartquant to transefer to server 
-    const updatedItems = cart.items.slice(); //copy of items to avoid mutation
-    1
-    const existingItem = updatedItems.find(itm => itm.id === id);
-    // new object + copy existing properties to avoid state mutation
+    const newTotalQuantity = cart.totalQuantity + 1;
 
+    const updatedItems = cart.items.slice(); // create copy via slice to avoid mutating original state
+    const existingItem = updatedItems.find((item) => item.id === id);
     if (existingItem) {
-      const updatedItem = { ...existingItem };
+      const updatedItem = { ...existingItem }; // new object + copy existing properties to avoid state mutation
       updatedItem.quantity++;
-      updatedItem.totalPrice += price;
-      const existingItemIndex = updatedItem.findIndex(itm => itm.id === id);
+      updatedItem.totalPrice = updatedItem.totalPrice + price;
+      const existingItemIndex = updatedItems.findIndex(
+        (item) => item.id === id
+      );
       updatedItems[existingItemIndex] = updatedItem;
     } else {
       updatedItems.push({
@@ -31,20 +31,28 @@ const ProductItem = (props) => {
         price: price,
         quantity: 1,
         totalPrice: price,
-        name: title
+        name: title,
       });
     }
+
     const newCart = {
       totalQuantity: newTotalQuantity,
-      items: updatedItems
+      items: updatedItems,
     };
-    dispatch(cartUpdateActions.replaceCart(newCart))
-    dispatch(cartUpdateActions.addItemToCart({
-      id,
-      title,
-      price
-    }));
-  }
+
+    dispatch(cartUpdateActions.replaceCart(newCart));
+
+    // and then send Http request
+    // fetch('firebase-url', { method: 'POST', body: JSON.stringify(newCart) })
+
+    // dispatch(
+    //   cartActions.addItemToCart({
+    //     id,
+    //     title,
+    //     price,
+    //   })
+    // );
+  };
 
   return (
     <li className={classes.item}>
