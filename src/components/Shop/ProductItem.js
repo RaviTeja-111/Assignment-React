@@ -13,14 +13,32 @@ const ProductItem = (props) => {
 
   const addToCartHandler = () => {
 
-    const dumTotalQuantity = cart.totalQuantity+1;  // add dummy cartquant to transefer to server 
+    const dumTotalQuantity = cart.totalQuantity + 1;  // add dummy cartquant to transefer to server 
     const updatedItems = cart.items.slice(); //copy of items to avoid mutation
-1
-    const existingItem = updatedItems.find(itm=>itm.id===id); new object + copy existing properties to avoid state mutation
+    1
+    const existingItem = updatedItems.find(itm => itm.id === id);
+    // new object + copy existing properties to avoid state mutation
 
-    if(existingItem){
-      const updatedItem = {...existingItem}
+    if (existingItem) {
+      const updatedItem = { ...existingItem };
+      updatedItem.quantity++;
+      updatedItem.totalPrice += price;
+      const existingItemIndex = updatedItem.findIndex(itm => itm.id === id);
+      updatedItems[existingItemIndex] = updatedItem;
+    } else {
+      updatedItems.push({
+        id: id,
+        price: price,
+        quantity: 1,
+        totalPrice: price,
+        name: title
+      });
     }
+    const newCart = {
+      totalQuantity: newTotalQuantity,
+      items: updatedItems
+    };
+    dispatch(cartUpdateActions.replaceCart(newCart))
     dispatch(cartUpdateActions.addItemToCart({
       id,
       title,
