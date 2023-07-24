@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { cartDisplayAction } from "./cartDisplayReducer";
 
 const cartUpdateReducer = createSlice({
     name: 'cartDetails',
@@ -7,9 +8,9 @@ const cartUpdateReducer = createSlice({
         totalQuantity: 0,
     },
     reducers: {
-        replaceCart(state,action){
-                state.totalQuantity = action.payload.totalQuantity;;
-                state.items = action.payload.items;
+        replaceCart(state, action) {
+            state.totalQuantity = action.payload.totalQuantity;;
+            state.items = action.payload.items;
         },
         addItemToCart(state, action) {
             const newItem = action.payload;
@@ -36,13 +37,46 @@ const cartUpdateReducer = createSlice({
                 state.items = state.items.filter(item => item.id !== id);
             } else {
                 existingItem.quantity--;
-                existingItem.totalPrice = existingItem.totalPrice -existingItem.price;
+                existingItem.totalPrice = existingItem.totalPrice - existingItem.price;
             }
 
         }
     }
 });
 
+export const sendCartData = (cart) => {
+    return async (dispatch) => {
+        dispatch(cartDisplayAction.setNotification({
+            title: 'Sending... ',
+            status: 'pending',
+            message: 'Sending Data...'
+        }));
+        const sendRequest = async () => {
+            const response = await fetch('https://for-react-78799-default-rtdb.firebaseio.com/cart.json', {
+                method: "PUT",
+                body: JSON.stringify(cart)
+            });
+            if (!response.ok) {
+                throw new Error('Sending data failed');
+            }
+        }
+        try{
+            await sendRequest();
+            dispatch(cartDisplayAction.setNotification({
+                status: 'success',
+                title: 'Success',
+                message: 'Sent data Sucessfully...'
+            }));
+        }catch(error){
+            dispatch(cartDisplayAction.setNotification({
+                status: 'error',
+                title: 'Error!',
+                message: 'Sent data Sucessfully...'
+            }));
+        }
+        
+    }
+}
 export const cartUpdateActions = cartUpdateReducer.actions;
 
 export default cartUpdateReducer;
