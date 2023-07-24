@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { cartDisplayAction } from '../../reducers/cartDisplayReducer';
-import classes from './CartButton.module.css';
+import classes from './CartButton.module.scss';
 
 const CartButton = (props) => {
   const cartQuantity = useSelector(state => state.cartUpdate.totalQuantity);

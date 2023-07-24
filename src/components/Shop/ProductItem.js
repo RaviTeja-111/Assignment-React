@@ -1,7 +1,7 @@
 import { useDispatch} from 'react-redux'
 
 import Card from '../UI/Card';
-import classes from './ProductItem.module.css';
+import classes from './ProductItem.module.scss';
 import { cartUpdateActions } from '../../reducers/cartUpdateReducer';
 
 

@@ -1,4 +1,4 @@
-import classes from './CartItem.module.css';
+import classes from './CartItem.module.scss';
 import { cartUpdateActions } from '../../reducers/cartUpdateReducer';
 
 import { useDispatch } from 'react-redux';

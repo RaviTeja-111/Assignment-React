@@ -1,10 +1,21 @@
+import classes from './Notification.module.scss'
 
-const Notification = (props) =>{
-   
-    
+const Notification = (props) => {
+    let splClasses = '';
 
-    return<div>
+    if (props.status === 'error') {
+        splClasses = classes.error;
+    }
+    if (props.status === 'success') {
+        splClasses = classes.success;
+    }
+    const cssClasses = `${classes.notification} ${splClasses}`;
 
-    </div>
-}
+    return (
+      <section className={cssClasses}>
+        <h2>{props.title}</h2>
+        <p>{props.message}</p>
+      </section>
+    );
+  };
 export default Notification;

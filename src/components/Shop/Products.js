@@ -1,5 +1,5 @@
 import ProductItem from './ProductItem';
-import classes from './Products.module.css';
+import classes from './Products.module.scss';
 
 const dummyData = [{ id: 'p1', title: 'Book1', price: 6, description: "Book Reading is best" },
 { id: 'p2', title: 'Book2', price: 60, description: "Book is Best" }]
