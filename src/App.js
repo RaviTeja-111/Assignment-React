@@ -5,9 +5,9 @@ import Cart from './components/Cart/Cart';
 import Layout from './components/Layout/Layout';
 import Products from './components/Shop/Products';
 import Notification from './components/UI/Notification';
-import { sendCartData } from './reducers/cartUpdateReducer';
+import { sendCartData, fetchCartData } from './actions/cartActions';
 
-let isInitial = true; 
+let isInitial = true;
 
 function App() {
   const disp = useSelector(state => state.cartDisplay.showCart);
@@ -16,15 +16,22 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if(isInitial){
-      isInitial = false ;
-      return ;
+    dispatch(fetchCartData())
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
     }
-    dispatch(sendCartData(cart));
-  }, [cart, dispatch])
+    if (cart.isChanged) {
+      dispatch(sendCartData(cart));
+    }
+  }, [cart, dispatch]);
+
   return (
     <Fragment>
-        {notification && <Notification title={notification.title} status={notification.status} message={notification.message} />}
+      {notification && <Notification title={notification.title} status={notification.status} message={notification.message} />}
       <Layout>
         {disp && <Cart />}
         <Products />
